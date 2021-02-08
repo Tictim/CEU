@@ -1,0 +1,16 @@
+[
+{
+  "modid": "ceu",
+  "name": "CEU",
+  "description": "Simple converter for GTCE EU/FE",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Tictim"],
+  "credits": "",
+  "logoFile": "assets/ceu/textures/ceu_logo_big_translucent.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]

@@ -1,0 +1,91 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+plugins{
+    id "com.jfrog.bintray" version "1.8.4"
+}
+
+apply plugin: 'java'
+apply plugin: 'net.minecraftforge.gradle.forge'
+//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+
+// Fetch version from source because having to write version in two separate place is dumb
+version = getVersionFromSource()
+String getVersionFromSource(){
+    File file = file("src/main/java/tictim/ceu/CeuMod.java")
+    String version = file.find { String s->
+        return s.contains("String VERSION")
+    }
+    return version.substring(version.indexOf('"')+1, version.lastIndexOf('"'))
+}
+
+group = "tictim.ceu" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "CEU-1.12.2"
+
+compileJava.options.encoding = 'UTF-8'
+
+sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+minecraft {
+    version = "1.12.2-14.23.5.2847"
+    runDir = "run"
+    mappings = "snapshot_20171003"
+}
+
+repositories {
+    maven {
+        name = "ic2"
+        url = "http://maven.ic2.player.to/"
+    }
+    maven {
+        name = "gtce"
+        url = "https://dl.bintray.com/gregtech/dev"
+    }
+    maven {
+        name = "ChickenBones maven"
+        url = "http://chickenbones.net/maven/"
+    }
+    maven {
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+}
+
+dependencies {
+    deobfCompile "codechicken:CodeChickenLib:1.12.2-3.2.3.358:deobf"
+    compile 'gregtech:gregtech:1.12.2-1.10.5.582'
+    compile 'net.industrial-craft:industrialcraft-2:2.8.111-ex112:api'
+
+    // compile against the JEI API but do not include it at runtime
+    deobfProvided "mezz.jei:jei_1.12.2:4.15.0.268:api"
+    // at runtime, use the full JEI jar
+    runtime "mezz.jei:jei_1.12.2:4.15.0.268"
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    // copy everything else except the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
