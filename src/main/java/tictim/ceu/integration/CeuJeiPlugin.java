@@ -18,6 +18,9 @@ public class CeuJeiPlugin implements IModPlugin{
 		blacklist.addIngredientToBlacklist(new ItemStack(CeuBlocks.TEST_ITEM));
 
 		for(MTEConverter mte : CeuMetaTileEntities.CEU) disableItem(blacklist, mte);
+		for(MTEConverter mte : CeuMetaTileEntities.CEF) disableItem(blacklist, mte);
+		for(MTEConverter mte : CeuMetaTileEntities.ICEU) disableItem(blacklist, mte);
+		for(MTEConverter mte : CeuMetaTileEntities.ICEF) disableItem(blacklist, mte);
 		disableItem(blacklist, CeuMetaTileEntities.INFINITE_FE_EMITTER);
 		disableItem(blacklist, CeuMetaTileEntities.INFINITE_FE_RECEIVER);
 		disableItem(blacklist, CeuMetaTileEntities.INFINITE_GTEU_EMITTER);
