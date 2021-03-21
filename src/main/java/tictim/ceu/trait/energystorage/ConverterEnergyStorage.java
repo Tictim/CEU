@@ -84,7 +84,7 @@ public abstract class ConverterEnergyStorage extends MTETrait{
 		for(int i = 0; i<inventory.getSlots(); i++){
 			IElectricItem item = getBatteryContainer(inventory.getStackInSlot(i), filter);
 			if(item!=null){
-				total = LongMath.saturatedAdd(item.getCharge(), total);
+				total = LongMath.saturatedAdd(item.getMaxCharge(), total);
 				if(total==Long.MAX_VALUE) return total;
 			}
 		}
