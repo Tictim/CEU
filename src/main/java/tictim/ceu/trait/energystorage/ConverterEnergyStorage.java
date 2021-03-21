@@ -48,7 +48,7 @@ public abstract class ConverterEnergyStorage extends MTETrait{
 					internalStored += extracted;
 				}
 			}
-			BatteryFilter insert = converter.getModes().getOnlyChargeFilter();
+			BatteryFilter insert = converter.getModes().getChargeFilter();
 			if(insert!=BatteryFilter.NONE){
 				// Charge items using internal buffer
 				long inserted = insertToBatteries(internalStored, false, insert, false);
