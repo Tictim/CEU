@@ -225,9 +225,6 @@ public abstract class ConverterEnergyStorage extends MTETrait{
 		// Feed energy for real.
 		for(BatteryEnergyDistribution battery : batteries){
 			long applied = charge(battery.battery, battery.input, battery.ignoreLimit, false);
-			if(applied!=battery.input){ // TODO might just remove it
-				System.out.println("Your mod couldn't even divide numbers correctly Tictim, go figure");
-			}
 			total += applied;
 		}
 		return total;

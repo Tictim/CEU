@@ -4,6 +4,7 @@ import gregtech.api.metatileentity.MTETrait;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants.NBT;
 import tictim.ceu.mte.MTEInfiniteEnergyBase;
+import tictim.ceu.util.Record;
 
 import java.math.BigInteger;
 
@@ -35,6 +36,11 @@ public abstract class TraitInfiniteEnergy extends MTETrait{
 		if(energy.compareTo(bInt)>0){
 			energy = energy.subtract(bInt);
 		}else energy = BigInteger.ZERO;
+	}
+
+	protected void addToRecord(long value){
+		Record r = mte.getRecord();
+		if(r!=null) r.add(mte.getWorld().getTotalWorldTime(), value);
 	}
 
 	@Override public NBTTagCompound serializeNBT(){

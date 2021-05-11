@@ -24,7 +24,10 @@ public class TraitInfiniteFEReceiver extends TraitInfiniteEnergy implements IEne
 	@Override public int receiveEnergy(int maxReceive, boolean simulate){
 		if(maxReceive<=0||mte.isDisabled()) return 0;
 		else{
-			if(!simulate) add(BigInteger.valueOf(maxReceive));
+			if(!simulate){
+				add(BigInteger.valueOf(maxReceive));
+				addToRecord(maxReceive);
+			}
 			return maxReceive;
 		}
 	}

@@ -3,14 +3,10 @@ package tictim.ceu.trait.infinite;
 import gregtech.api.GTValues;
 import gregtech.api.capability.GregtechCapabilities;
 import gregtech.api.capability.IEnergyContainer;
-import gregtech.api.gui.IUIHolder;
-import gregtech.api.gui.ModularUI;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
-import tictim.ceu.gui.InfiniteEnergyUIData;
 import tictim.ceu.mte.MTEInfiniteEnergyBase;
 import tictim.ceu.util.Conversion;
 
@@ -49,6 +45,7 @@ public class TraitInfiniteGTEUEmitter extends TraitInfiniteEmitter implements IE
 					long accepted = s.acceptEnergyFromNetwork(facing.getOpposite(), voltage, Math.min(s.getInputAmperage(), stored/voltage))*voltage;
 					if(accepted>0){
 						if(!isInfinite()) subtract(BigInteger.valueOf(accepted));
+						addToRecord(accepted);
 						return true;
 					}
 				}
@@ -68,6 +65,7 @@ public class TraitInfiniteGTEUEmitter extends TraitInfiniteEmitter implements IE
 	}
 	@Override public long changeEnergy(long differenceAmount){
 		add(BigInteger.valueOf(differenceAmount));
+		addToRecord(-differenceAmount);
 		return differenceAmount;
 	}
 	@Override public long getInputAmperage(){

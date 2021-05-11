@@ -25,6 +25,7 @@ public class TraitInfiniteGTEUReceiver extends TraitInfiniteEnergy implements IE
 	@Override public long acceptEnergyFromNetwork(EnumFacing side, long voltage, long amperage){
 		if(mte.isDisabled()) return 0;
 		add(BigInteger.valueOf(voltage*amperage));
+		addToRecord(voltage*amperage);
 		return amperage;
 	}
 	@Override public boolean inputsEnergy(EnumFacing side){
@@ -32,6 +33,7 @@ public class TraitInfiniteGTEUReceiver extends TraitInfiniteEnergy implements IE
 	}
 	@Override public long changeEnergy(long differenceAmount){
 		add(BigInteger.valueOf(differenceAmount));
+		addToRecord(differenceAmount);
 		return differenceAmount;
 	}
 	@Override public long getInputAmperage(){

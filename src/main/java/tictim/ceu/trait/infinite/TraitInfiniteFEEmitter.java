@@ -28,8 +28,9 @@ public class TraitInfiniteFEEmitter extends TraitInfiniteEmitter implements IEne
 		if(te!=null){
 			IEnergyStorage s = te.getCapability(CapabilityEnergy.ENERGY, facing.getOpposite());
 			if(s!=null&&s.canReceive()){
-				if(!isInfinite()) subtract(BigInteger.valueOf(s.receiveEnergy(getEnergyStored(), false)));
-				else s.receiveEnergy(getEnergyStored(), false);
+				int received = s.receiveEnergy(getEnergyStored(), false);
+				if(!isInfinite()) subtract(BigInteger.valueOf(received));
+				addToRecord(received);
 				return true;
 			}
 		}
@@ -43,8 +44,11 @@ public class TraitInfiniteFEEmitter extends TraitInfiniteEmitter implements IEne
 		if(maxExtract<=0||mte.isDisabled()) return 0;
 		else{
 			BigInteger i = BigInteger.valueOf(maxExtract);
-			if(i.compareTo(energy)>0) i = energy;
-			if(!simulate) subtract(i);
+			if(!isInfinite()&&i.compareTo(energy)>0) i = energy;
+			if(!simulate){
+				subtract(i);
+				addToRecord(i.longValue());
+			}
 			return i.intValue();
 		}
 	}
