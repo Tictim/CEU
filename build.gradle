@@ -1,14 +1,11 @@
 buildscript {
     repositories {
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
+        maven { url = "http://maven.minecraftforge.net/" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
-}
-plugins{
-    id "com.jfrog.bintray" version "1.8.4"
 }
 
 apply plugin: 'java'
@@ -47,10 +44,6 @@ repositories {
         url = "http://maven.ic2.player.to/"
     }
     maven {
-        name = "gtce"
-        url = "https://dl.bintray.com/gregtech/dev"
-    }
-    maven {
         name = "ChickenBones maven"
         url = "http://chickenbones.net/maven/"
     }
@@ -58,11 +51,15 @@ repositories {
         name = "Progwml6 maven"
         url = "https://dvs1.progwml6.com/files/maven/"
     }
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven"
+    }
 }
 
 dependencies {
     deobfCompile "codechicken:CodeChickenLib:1.12.2-3.2.3.358:deobf"
-    compile 'gregtech:gregtech:1.12.2-1.10.5.582'
+    compile "gregtechce:gregtech:1.12.2:1.14.0.689"
     compile 'net.industrial-craft:industrialcraft-2:2.8.111-ex112:api'
 
     // compile against the JEI API but do not include it at runtime
