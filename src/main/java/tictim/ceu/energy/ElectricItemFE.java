@@ -1,6 +1,5 @@
 package tictim.ceu.energy;
 
-import gregtech.api.GTValues;
 import gregtech.api.capability.IElectricItem;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -22,12 +21,10 @@ public class ElectricItemFE implements IElectricItem{
 	}
 	@Override public void addChargeListener(BiConsumer<ItemStack, Long> chargeListener){}
 	@Override public long charge(long amount, int tier, boolean ignoreTransferLimit, boolean simulate){
-		if(!ignoreTransferLimit) amount = Math.min(amount, getTransferLimit());
 		int received = storage.receiveEnergy(converter.toTargetEnergy().convertToInt(amount), simulate);
 		return converter.toGTEU().convertToLong(received);
 	}
 	@Override public long discharge(long amount, int tier, boolean ignoreTransferLimit, boolean externally, boolean simulate){
-		if(!ignoreTransferLimit) amount = Math.min(amount, getTransferLimit());
 		int received = storage.extractEnergy(converter.toTargetEnergy().convertToInt(amount), simulate);
 		return converter.toGTEU().convertToLong(received);
 	}
@@ -44,6 +41,9 @@ public class ElectricItemFE implements IElectricItem{
 		return converter.getTier();
 	}
 	@Override public long getTransferLimit(){
-		return GTValues.V[getTier()];
+		int maxIO = storage.extractEnergy(Integer.MAX_VALUE, true);
+		if(maxIO!=Integer.MAX_VALUE)
+			maxIO = Math.max(maxIO, storage.receiveEnergy(Integer.MAX_VALUE, true));
+		return converter.toGTEU().convertToLong(maxIO);
 	}
 }
