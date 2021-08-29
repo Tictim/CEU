@@ -238,12 +238,10 @@ public abstract class MTEConverter extends TieredMetaTileEntity{
 	@Nullable protected abstract TextureArea getTargetEnergyBatteryOptionIcon();
 
 	@Nullable @Override public <T> T getCapability(Capability<T> cap, EnumFacing side){
-		if(side!=null){
-			for(MTETrait trait : mteTraits){
-				if(trait instanceof TraitConverterIO){
-					T c = ((TraitConverterIO)trait).getCapability(cap, side);
-					if(c!=null) return c;
-				}
+		for(MTETrait trait : mteTraits){
+			if(trait instanceof TraitConverterIO){
+				T c = ((TraitConverterIO)trait).getCapability(cap, side);
+				if(c!=null) return c;
 			}
 		}
 		return super.getCapability(cap, side);

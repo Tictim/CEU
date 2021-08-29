@@ -8,6 +8,8 @@ import net.minecraftforge.common.capabilities.Capability;
 import tictim.ceu.mte.MTEConverter;
 import tictim.ceu.trait.energystorage.ConverterEnergyStorage;
 
+import javax.annotation.Nullable;
+
 import static tictim.ceu.enums.BatteryFilter.ALL;
 import static tictim.ceu.enums.BatteryFilter.NONE;
 
@@ -16,9 +18,6 @@ public class TraitGTEUIn extends TraitConverterIO implements IEnergyContainer{
 		super(converter);
 	}
 
-	@Override protected Capability<?> getImplementingCapability(){
-		return GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER;
-	}
 	@Override public String getName(){
 		return "TraitGteuIn";
 	}
@@ -74,5 +73,10 @@ public class TraitGTEUIn extends TraitConverterIO implements IEnergyContainer{
 	}
 	@Override public long getInputVoltage(){
 		return converter.voltage();
+	}
+
+	@Nullable @Override public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side){
+		return capability==GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER&&(side==null||isValidSideForCapability(side)) ?
+				GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER.cast(this) : null;
 	}
 }

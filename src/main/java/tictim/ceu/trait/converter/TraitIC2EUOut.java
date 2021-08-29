@@ -28,9 +28,6 @@ public class TraitIC2EUOut extends TraitConverterIO{
 	@Override public int getNetworkID(){
 		return 0;
 	}
-	@Nullable @Override public Capability<?> getImplementingCapability(){
-		return null;
-	}
 
 	private SourceWrapper sinkWrapper;
 
@@ -39,6 +36,10 @@ public class TraitIC2EUOut extends TraitConverterIO{
 			sinkWrapper = new SourceWrapper();
 			if(Loader.isModLoaded("ic2")) sinkWrapper.addToENet();
 		}
+	}
+
+	@Nullable @Override public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side){
+		return null;
 	}
 
 	@Optional.InterfaceList({

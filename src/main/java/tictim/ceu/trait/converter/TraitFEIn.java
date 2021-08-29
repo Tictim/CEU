@@ -1,9 +1,12 @@
 package tictim.ceu.trait.converter;
 
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import tictim.ceu.mte.MTEConverter;
+
+import javax.annotation.Nullable;
 
 import static tictim.ceu.enums.BatteryFilter.ALL;
 import static tictim.ceu.enums.BatteryFilter.NONE;
@@ -13,9 +16,6 @@ public class TraitFEIn extends TraitConverterIO implements IEnergyStorage{
 		super(converter);
 	}
 
-	@Override protected Capability<?> getImplementingCapability(){
-		return CapabilityEnergy.ENERGY;
-	}
 	@Override public String getName(){
 		return "TraitFeIn";
 	}
@@ -44,5 +44,10 @@ public class TraitFEIn extends TraitConverterIO implements IEnergyStorage{
 	}
 	@Override public boolean canReceive(){
 		return true;
+	}
+
+	@Nullable @Override public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side){
+		return capability==CapabilityEnergy.ENERGY&&(side==null||isValidSideForCapability(side)) ?
+				CapabilityEnergy.ENERGY.cast(this) : null;
 	}
 }

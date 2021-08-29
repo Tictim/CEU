@@ -15,19 +15,13 @@ public abstract class TraitConverterIO extends MTETrait{
 		this.converter = converter;
 	}
 
-	@Nullable protected abstract Capability<?> getImplementingCapability();
-
 	@Override
 	@Nullable
 	public <T> T getCapability(Capability<T> capability){
 		return getCapability(capability, null);
 	}
 
-	@Nullable @SuppressWarnings("unchecked") public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side){
-		Capability<?> implCap = getImplementingCapability();
-		if(implCap!=capability) return null;
-		return side==null||isValidSideForCapability(side) ? (T)this : null;
-	}
+	@Nullable public abstract  <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side);
 
 	protected boolean isValidSideForCapability(EnumFacing side){
 		return side!=converter.getFrontFacing();

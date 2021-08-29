@@ -28,9 +28,6 @@ public class TraitIC2EUIn extends TraitConverterIO{
 	@Override public int getNetworkID(){
 		return 0;
 	}
-	@Nullable @Override protected Capability<?> getImplementingCapability(){
-		return null;
-	}
 
 	private SinkWrapper sinkWrapper;
 
@@ -41,6 +38,9 @@ public class TraitIC2EUIn extends TraitConverterIO{
 		}
 	}
 
+	@Nullable @Override public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side){
+		return null;
+	}
 
 	@Optional.InterfaceList({
 			@Optional.Interface(modid = "ic2", iface = "ic2.api.energy.tile.IEnergySink"),
