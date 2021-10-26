@@ -13,9 +13,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.client.config.GuiUtils;
-import tictim.ceu.trait.infinite.TraitInfiniteEnergy;
 
-import javax.annotation.Nullable;
 import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.Collections;
@@ -34,17 +32,6 @@ public class InfiniteEnergyUIData{
 		TRANSLATABLE_VOLTAGE_NAMES = new String[GTValues.V.length];
 		for(int i = 0; i<GTValues.V.length; i++)
 			TRANSLATABLE_VOLTAGE_NAMES[i] = "info.infinite_energy."+GTValues.VN[i].toLowerCase();
-	}
-
-	public static ModularUI createWIPScreen(IUIHolder holder, EntityPlayer player){
-		return new ModularUI.Builder(new EmptyTextureArea(300, 9), 300, 9)
-				.widget(new LabelWidget(
-						150,
-						0,
-						"This feature is still work in progress.",
-						0xFFFFFF)
-						.setXCentered(true))
-				.build(holder, player);
 	}
 
 	private boolean isDirty;
@@ -124,7 +111,7 @@ public class InfiniteEnergyUIData{
 		public InfiniteEnergyGuiBuilder energyInput(String labelText, Consumer<BigInteger> applyEnergyChange){
 			this.applyEnergyChange = applyEnergyChange;
 			if(!widgets.isEmpty()) y += 4;
-			widgets.add(new TextFieldWidgetInfiniteEnergy(
+			widgets.add(new InfiniteEnergyTextField(
 					2,
 					y,
 					180,

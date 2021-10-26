@@ -22,9 +22,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tictim.ceu.config.CeuConfig;
-import tictim.ceu.contents.CeuMetaTileEntities;
-import tictim.ceu.contents.CeuResources;
-import tictim.ceu.message.MessageConfigSync;
+import tictim.ceu.config.ConfigSyncMsg;
 
 import java.io.File;
 import java.util.Collections;
@@ -35,7 +33,7 @@ import java.util.List;
 public class CeuMod{
 	public static final String MODID = "ceu";
 	public static final String NAME = "Ceu";
-	public static final String VERSION = "1.0.5.3";
+	public static final String VERSION = "1.0.6.0-SNAPSHOT";
 
 	public static final Logger LOGGER = LogManager.getLogger(NAME);
 
@@ -56,13 +54,13 @@ public class CeuMod{
 	public void preInit(FMLPreInitializationEvent event){
 		cfg = new Configuration(new File(event.getModConfigurationDirectory(), "ceu.cfg"));
 		CeuConfig.createConfigInstance(cfg);
-		CeuMetaTileEntities.register();
+		CeuContents.register();
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event){
-		CeuMetaTileEntities.addRecipes();
-		NET.registerMessage(MessageConfigSync.Handler.INSTANCE, MessageConfigSync.class, 0, Side.CLIENT);
+		CeuContents.addRecipes();
+		NET.registerMessage(ConfigSyncMsg.Handler.INSTANCE, ConfigSyncMsg.class, 0, Side.CLIENT);
 	}
 
 	@EventHandler
@@ -72,7 +70,7 @@ public class CeuMod{
 
 	@SubscribeEvent
 	public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event){
-		if(event.player instanceof EntityPlayerMP) CeuMod.NET.sendTo(new MessageConfigSync(), (EntityPlayerMP)event.player);
+		if(event.player instanceof EntityPlayerMP) CeuMod.NET.sendTo(new ConfigSyncMsg(), (EntityPlayerMP)event.player);
 	}
 
 	@SubscribeEvent
@@ -80,7 +78,7 @@ public class CeuMod{
 		if(event.getModID().equals(CeuMod.MODID)){
 			CeuConfig.createConfigInstance(cfg);
 			MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-			if(server!=null) for(EntityPlayerMP p : server.getPlayerList().getPlayers()) CeuMod.NET.sendTo(new MessageConfigSync(), p);
+			if(server!=null) for(EntityPlayerMP p : server.getPlayerList().getPlayers()) CeuMod.NET.sendTo(new ConfigSyncMsg(), p);
 		}
 	}
 }

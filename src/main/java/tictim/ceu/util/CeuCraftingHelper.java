@@ -9,7 +9,7 @@ import gregtech.api.unification.stack.UnificationEntry;
 import gregtech.common.metatileentities.MetaTileEntities;
 import net.minecraft.item.ItemStack;
 
-public class CeuCraftingHelper{
+public class CeuCraftingHelper{ // TODO fuck
 	private ItemStack[] hulls;
 
 	public ItemStack hull(int tier){

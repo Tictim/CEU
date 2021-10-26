@@ -1,41 +1,32 @@
 package tictim.ceu.config;
 
-import net.minecraftforge.common.config.Configuration;
-import tictim.ceu.enums.CeuType;
+import gregtech.api.GTValues;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.config.Configuration;
 
 public final class CeuVoltageCategory{
-	private final CeuType type;
 	private final CeuSetting[] settings;
-	
-	public CeuVoltageCategory(Configuration cfg, CeuType type){
-		this.type = type;
-		
-		settings = new CeuSetting[type.getConverterType().getMaxTier()-type.getConverterType().getMinTier()+1];
-		for(int i = 0; i<settings.length; i++){
-			settings[i] = new CeuSetting(cfg, type, i+type.getConverterType().getMinTier());
-		}
+
+	public CeuVoltageCategory(Configuration cfg, String name, boolean defaultRatioReversed){
+		this.settings = new CeuSetting[GTValues.V.length];
+		for(int i = 0; i<GTValues.V.length; i++)
+			this.settings[i] = new CeuSetting(cfg, name, i, defaultRatioReversed);
 	}
-	
-	public CeuVoltageCategory(NBTTagCompound nbt, CeuType type){
-		this.type = type;
-		NBTTagCompound subnbt = nbt.getCompoundTag(type.name().toLowerCase());
-		
-		settings = new CeuSetting[type.getConverterType().getMaxTier()-type.getConverterType().getMinTier()+1];
-		for(int i = 0; i<settings.length; i++){
-			settings[i] = new CeuSetting(subnbt, type, i+type.getConverterType().getMinTier());
-		}
+
+	public CeuVoltageCategory(NBTTagCompound nbt, String name){
+		this.settings = new CeuSetting[GTValues.V.length];
+		for(int i = 0; i<GTValues.V.length; i++)
+			this.settings[i] = new CeuSetting(nbt, name, i);
 	}
-	
+
 	public CeuSetting getSetting(int tier){
-		return settings[tier-type.getConverterType().getMinTier()];
+		return settings[tier];
 	}
-	
-	public void serialize(NBTTagCompound nbt){
-		NBTTagCompound subnbt = new NBTTagCompound();
-		for(CeuSetting setting: settings)
-			setting.serialize(subnbt);
-		if(!subnbt.hasNoTags()) nbt.setTag(type.name().toLowerCase(), subnbt);
+
+	public NBTTagCompound serialize(){
+		NBTTagCompound nbt = new NBTTagCompound();
+		for(CeuSetting setting : settings)
+			setting.serialize(nbt);
+		return nbt;
 	}
 }

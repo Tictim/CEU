@@ -10,6 +10,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -57,7 +60,15 @@ public class Record{
 		return timeToValue.get(time);
 	}
 
-	public boolean save(String fileName){
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+
+	public boolean saveWithDefaultName(String metaTileEntityId, @Nullable String playerName){
+		String fileName = "record_"+DATE_FORMAT.format(new Date())+"_"+metaTileEntityId;
+		if(playerName!=null) fileName += "_"+playerName;
+		return save(fileName+".csv");
+	}
+
+	@SuppressWarnings("ResultOfMethodCallIgnored") public boolean save(String fileName){
 		boolean succeed = true;
 		File file = new File("ceu_records/"+fileName);
 		try{

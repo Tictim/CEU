@@ -13,7 +13,9 @@ while True:
 
     if fuckLower == "exit":
         exit(0)
-    elif fuckLower.endswith(".csv"):
+    else:
+        if not fuckLower.endswith(".csv"):
+            fuck += ".csv"
         try:
             with open(fuck) as file:
                 rows = [r for r in csv.DictReader(file)]
@@ -23,5 +25,3 @@ while True:
             print("Cannot locate file at '%s'" % fuck)
         except OSError:
             print("Cannot access file at '%s'" % fuck)
-    else:
-        print("Not a csv file")

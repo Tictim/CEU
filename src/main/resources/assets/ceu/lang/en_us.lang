@@ -161,8 +161,8 @@ ceu.energy.fe=FE
 ceu.energy.gteu=GTEU
 ceu.energy.ic2eu=IC2 EU
 
-ceu.energy_out=Maximum %s OUT: §e%d FE§7/tick
-ceu.energy_in=Maximum %s IN: §e%d FE§7/tick
+ceu.energy_out=Maximum FE OUT: §e%d FE§7/tick
+ceu.energy_in=Maximum FE IN: §e%d FE§7/tick
 ceu.description=Converts %s to %s
 ceu.conversion_rate=Conversion Rate: (§9%s %s§7 : §9%s %s§7)
 ceu.ceu=Converts EU to FE
@@ -198,8 +198,3 @@ info.infinite_energy.accept=Accept
 info.infinite_energy.decline=Decline
 info.button.accept=Press §lENTER§r to accept changes
 info.button.decline=Press §lESC§r to decline changes
-
-tile.broken_ceu.name=§kasdfasdfasagadwewvccxasda§r
-
-tile.test.ohno.0=Oh no, it's glitched.
-tile.test.ohno.1=It seems like this block was infinite energy source in past, but now this block is %s/** @Deprecated */§r§7 and you should use new infinite energy source which can be found in GTCE tab instead of this.
