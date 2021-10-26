@@ -72,12 +72,11 @@ public class CefMTE extends ConverterMTE{
 		}
 
 		@Override public int receiveEnergy(int maxReceive, boolean simulate){
-			long changed = getEnergyStorage().insert(
-					toGTEU().convert(maxReceive, Long.MAX_VALUE),
+			return toFE().convertToInt(getEnergyStorage().insert(
+					toGTEU().convertToLong(maxReceive),
 					false,
 					NONE,
-					simulate);
-			return toFE().convertToInt(changed, Integer.MAX_VALUE);
+					simulate));
 		}
 
 		@Override public int extractEnergy(int maxExtract, boolean simulate){
@@ -118,7 +117,7 @@ public class CefMTE extends ConverterMTE{
 			IEnergyContainer energy = tileEntity.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, getFrontFacing().getOpposite());
 			if(energy==null||!energy.inputsEnergy(getFrontFacing().getOpposite())) return;
 			long voltage = voltage();
-			long canEmit = toFE().convertToInt(getEnergyStorage().extract(Long.MAX_VALUE, false, false, true));
+			long canEmit = getEnergyStorage().extract(Long.MAX_VALUE, false, false, true);
 
 			if(canEmit>=voltage){
 				long emitAmpere = Math.min(amperage()==9 ? 8 : amperage(), canEmit/voltage);

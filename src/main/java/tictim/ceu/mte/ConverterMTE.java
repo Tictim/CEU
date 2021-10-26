@@ -24,8 +24,8 @@ import tictim.ceu.enums.BatteryChargeStrategy;
 import tictim.ceu.enums.BatteryFilter;
 import tictim.ceu.enums.BatteryIOOption;
 import tictim.ceu.gui.TexturedCycleButtonWidget;
-import tictim.ceu.mte.trait.ConverterTrait;
 import tictim.ceu.mte.trait.ConverterEnergyStorage;
+import tictim.ceu.mte.trait.ConverterTrait;
 import tictim.ceu.util.CeuModes;
 import tictim.ceu.util.Ratio;
 
@@ -119,7 +119,7 @@ public abstract class ConverterMTE extends TieredMetaTileEntity{
 			tooltip.add(I18n.format(convertsToFE() ? "gregtech.universal.tooltip.voltage_in" : "gregtech.universal.tooltip.voltage_out",
 					GTValues.V[getTier()], GTValues.VN[getTier()]));
 			tooltip.add(I18n.format(convertsToFE() ? "ceu.energy_out" : "ceu.energy_in",
-					toFE().convert(energyIOLimit(), Integer.MAX_VALUE)));
+					toFE().convertToInt(energyIOLimit())));
 		}
 		tooltip.add(I18n.format("gregtech.universal.tooltip.energy_storage_capacity", energyStorage.internalCapacity()));
 	}
