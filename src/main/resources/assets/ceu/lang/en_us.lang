@@ -49,6 +49,31 @@ ceu.machine.ceu.max.4.name=CEU (MAX)
 ceu.machine.ceu.max.9.name=CEU (MAX)
 ceu.machine.ceu.max.16.name=CEU (MAX)
 
+ceu.machine.ceu.uhv.1.name=CEU (UHV)
+ceu.machine.ceu.uhv.4.name=CEU (UHV)
+ceu.machine.ceu.uhv.9.name=CEU (UHV)
+ceu.machine.ceu.uhv.16.name=CEU (UHV)
+
+ceu.machine.ceu.uev.1.name=CEU (UEV)
+ceu.machine.ceu.uev.4.name=CEU (UEV)
+ceu.machine.ceu.uev.9.name=CEU (UEV)
+ceu.machine.ceu.uev.16.name=CEU (UEV)
+
+ceu.machine.ceu.uiv.1.name=CEU (UIV)
+ceu.machine.ceu.uiv.4.name=CEU (UIV)
+ceu.machine.ceu.uiv.9.name=CEU (UIV)
+ceu.machine.ceu.uiv.16.name=CEU (UIV)
+
+ceu.machine.ceu.umv.1.name=CEU (UMV)
+ceu.machine.ceu.umv.4.name=CEU (UMV)
+ceu.machine.ceu.umv.9.name=CEU (UMV)
+ceu.machine.ceu.umv.16.name=CEU (UMV)
+
+ceu.machine.ceu.uxv.1.name=CEU (UXV)
+ceu.machine.ceu.uxv.4.name=CEU (UXV)
+ceu.machine.ceu.uxv.9.name=CEU (UXV)
+ceu.machine.ceu.uxv.16.name=CEU (UXV)
+
 
 ceu.machine.cef.ulv.1.name=CEF (ULV)
 ceu.machine.cef.ulv.4.name=CEF (ULV)
@@ -100,75 +125,46 @@ ceu.machine.cef.max.4.name=CEF (MAX)
 ceu.machine.cef.max.9.name=CEF (MAX)
 ceu.machine.cef.max.16.name=CEF (MAX)
 
-ceu.machine.iceu.lv.1.name=ICEU (LV)
-ceu.machine.iceu.lv.4.name=ICEU (LV)
-ceu.machine.iceu.lv.9.name=ICEU (LV)
-ceu.machine.iceu.lv.16.name=ICEU (LV)
+ceu.machine.cef.uhv.1.name=CEF (UHV)
+ceu.machine.cef.uhv.4.name=CEF (UHV)
+ceu.machine.cef.uhv.9.name=CEF (UHV)
+ceu.machine.cef.uhv.16.name=CEF (UHV)
 
-ceu.machine.iceu.mv.1.name=ICEU (MV)
-ceu.machine.iceu.mv.4.name=ICEU (MV)
-ceu.machine.iceu.mv.9.name=ICEU (MV)
-ceu.machine.iceu.mv.16.name=ICEU (MV)
+ceu.machine.cef.uev.1.name=CEF (UEV)
+ceu.machine.cef.uev.4.name=CEF (UEV)
+ceu.machine.cef.uev.9.name=CEF (UEV)
+ceu.machine.cef.uev.16.name=CEF (UEV)
 
-ceu.machine.iceu.hv.1.name=ICEU (HV)
-ceu.machine.iceu.hv.4.name=ICEU (HV)
-ceu.machine.iceu.hv.9.name=ICEU (HV)
-ceu.machine.iceu.hv.16.name=ICEU (HV)
+ceu.machine.cef.uiv.1.name=CEF (UIV)
+ceu.machine.cef.uiv.4.name=CEF (UIV)
+ceu.machine.cef.uiv.9.name=CEF (UIV)
+ceu.machine.cef.uiv.16.name=CEF (UIV)
 
-ceu.machine.iceu.ev.1.name=ICEU (EV)
-ceu.machine.iceu.ev.4.name=ICEU (EV)
-ceu.machine.iceu.ev.9.name=ICEU (EV)
-ceu.machine.iceu.ev.16.name=ICEU (EV)
+ceu.machine.cef.umv.1.name=CEF (UMV)
+ceu.machine.cef.umv.4.name=CEF (UMV)
+ceu.machine.cef.umv.9.name=CEF (UMV)
+ceu.machine.cef.umv.16.name=CEF (UMV)
 
-ceu.machine.iceu.iv.1.name=ICEU (IV)
-ceu.machine.iceu.iv.4.name=ICEU (IV)
-ceu.machine.iceu.iv.9.name=ICEU (IV)
-ceu.machine.iceu.iv.16.name=ICEU (IV)
-
-ceu.machine.icef.lv.1.name=ICEF (LV)
-ceu.machine.icef.lv.4.name=ICEF (LV)
-ceu.machine.icef.lv.9.name=ICEF (LV)
-ceu.machine.icef.lv.16.name=ICEF (LV)
-
-ceu.machine.icef.mv.1.name=ICEF (MV)
-ceu.machine.icef.mv.4.name=ICEF (MV)
-ceu.machine.icef.mv.9.name=ICEF (MV)
-ceu.machine.icef.mv.16.name=ICEF (MV)
-
-ceu.machine.icef.hv.1.name=ICEF (HV)
-ceu.machine.icef.hv.4.name=ICEF (HV)
-ceu.machine.icef.hv.9.name=ICEF (HV)
-ceu.machine.icef.hv.16.name=ICEF (HV)
-
-ceu.machine.icef.ev.1.name=ICEF (EV)
-ceu.machine.icef.ev.4.name=ICEF (EV)
-ceu.machine.icef.ev.9.name=ICEF (EV)
-ceu.machine.icef.ev.16.name=ICEF (EV)
-
-ceu.machine.icef.iv.1.name=ICEF (IV)
-ceu.machine.icef.iv.4.name=ICEF (IV)
-ceu.machine.icef.iv.9.name=ICEF (IV)
-ceu.machine.icef.iv.16.name=ICEF (IV)
+ceu.machine.cef.uxv.1.name=CEF (UXV)
+ceu.machine.cef.uxv.4.name=CEF (UXV)
+ceu.machine.cef.uxv.9.name=CEF (UXV)
+ceu.machine.cef.uxv.16.name=CEF (UXV)
 
 ceu.machine.fe_emitter.name=Infinite Forge Energy Emitter
 ceu.machine.fe_receiver.name=Infinite Forge Energy Receiver
 ceu.machine.gteu_emitter.name=Infinite GT Energy Unit Emitter
 ceu.machine.gteu_receiver.name=Infinite GT Energy Unit Receiver
-ceu.machine.ic2eu_emitter.name=Infinite IC2 Energy Unit Emitter
-ceu.machine.ic2eu_receiver.name=Infinite IC2 Energy Unit Receiver
 
 ceu.energy.fe=FE
 ceu.energy.gteu=GTEU
-ceu.energy.ic2eu=IC2 EU
 
-ceu.energy_out=Maximum FE OUT: §e%d FE§7/tick
-ceu.energy_in=Maximum FE IN: §e%d FE§7/tick
-ceu.description=Converts %s to %s
+ceu.energy_out=Maximum FE OUT: §e%,d FE§7/tick
+ceu.energy_in=Maximum FE IN: §e%,d FE§7/tick
+ceu.energy_io_capped_out=§7§o(Capped out at §e§o%,d FE§7§o/tick)
+ceu.description.ceu=Converts GTEU to FE
+ceu.description.cef=Converts FE to GTEU
 ceu.conversion_rate=Conversion Rate: (§9%s %s§7 : §9%s %s§7)
-ceu.ceu=Converts EU to FE
-ceu.cef=Converts FE to EU
 ceu.disabled=§cDisabled
-ceu.disabled.ic2=§cWARNING: Currently ICEU/ICEF does absolutely nothing.
 
 ceu.gteu_io_option.charge_and_discharge=GTEU Battery: Charge & Discharge
 ceu.gteu_io_option.charge=GTEU Battery: Charge

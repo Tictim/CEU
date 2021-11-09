@@ -29,10 +29,11 @@ public final class CeuConfig{
 		cfg.save();
 	}
 
-	private final CeuVoltageCategory ceuSettings;
-	private final CeuVoltageCategory cefSettings;
+	private final TierCategory ceuSettings;
+	private final TierCategory cefSettings;
 	private final boolean exactVoltage;
 	private final boolean constrainBattery;
+	private final boolean disableGregicalityCompat;
 
 	public CeuConfig(Configuration cfg){
 		this.exactVoltage = cfg.get(
@@ -47,15 +48,22 @@ public final class CeuConfig{
 						false,
 						"Constrain input/output of batteries to input/output capability of energy converters.")
 				.getBoolean();
-		this.ceuSettings = new CeuVoltageCategory(cfg, "ceu", true);
-		this.cefSettings = new CeuVoltageCategory(cfg, "cef", false);
+		this.disableGregicalityCompat = cfg.get(
+						"general",
+						"disableGregicalityCompat",
+						false,
+						"Disables Gregicality compat. Otherwise compat will be active when mod with id of 'gtadditions' is present.")
+				.getBoolean();
+		this.ceuSettings = new TierCategory(cfg, "ceu", true);
+		this.cefSettings = new TierCategory(cfg, "cef", false);
 	}
 
 	public CeuConfig(NBTTagCompound nbt){
 		this.exactVoltage = nbt.getBoolean("exactVoltage");
 		this.constrainBattery = nbt.getBoolean("constrainBattery");
-		this.ceuSettings = new CeuVoltageCategory(nbt.getCompoundTag("ceu"), "ceu");
-		this.cefSettings = new CeuVoltageCategory(nbt.getCompoundTag("cef"), "cef");
+		this.disableGregicalityCompat = nbt.getBoolean("disableGregicalityCompat");
+		this.ceuSettings = new TierCategory(nbt.getCompoundTag("ceu"));
+		this.cefSettings = new TierCategory(nbt.getCompoundTag("cef"));
 	}
 
 	public boolean isCeuDisabled(int tier){
@@ -75,6 +83,9 @@ public final class CeuConfig{
 	}
 	public boolean constrainBattery(){
 		return constrainBattery;
+	}
+	public boolean disableGregicalityCompat(){
+		return disableGregicalityCompat;
 	}
 
 	public void serialize(NBTTagCompound nbt){

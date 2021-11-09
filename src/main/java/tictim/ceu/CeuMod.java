@@ -1,7 +1,6 @@
 package tictim.ceu;
 
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
@@ -77,8 +76,7 @@ public class CeuMod{
 	public static void onConfigChange(ConfigChangedEvent.OnConfigChangedEvent event){
 		if(event.getModID().equals(CeuMod.MODID)){
 			CeuConfig.createConfigInstance(cfg);
-			MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-			if(server!=null) for(EntityPlayerMP p : server.getPlayerList().getPlayers()) CeuMod.NET.sendTo(new ConfigSyncMsg(), p);
+			if(FMLCommonHandler.instance().getMinecraftServerInstance()!=null) CeuMod.NET.sendToAll(new ConfigSyncMsg());
 		}
 	}
 }

@@ -1,12 +1,13 @@
 package tictim.ceu.mte.trait;
 
+import gregtech.api.metatileentity.MetaTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import tictim.ceu.mte.ConverterMTE;
+import tictim.ceu.mte.Converter;
 
 public abstract class ConverterEmitterTrait extends ConverterTrait{
-	public ConverterEmitterTrait(ConverterMTE converter){
-		super(converter);
+	public <MTE extends MetaTileEntity & Converter> ConverterEmitterTrait(MTE mte){
+		super(mte);
 	}
 
 	@Override public void update(){

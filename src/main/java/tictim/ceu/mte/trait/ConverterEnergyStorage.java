@@ -1,10 +1,10 @@
 package tictim.ceu.mte.trait;
 
 import com.google.common.math.LongMath;
-import gregtech.api.GTValues;
 import gregtech.api.capability.GregtechCapabilities;
 import gregtech.api.capability.IElectricItem;
 import gregtech.api.metatileentity.MTETrait;
+import gregtech.api.metatileentity.MetaTileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.capabilities.Capability;
@@ -13,7 +13,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import tictim.ceu.config.CeuConfig;
 import tictim.ceu.enums.BatteryFilter;
-import tictim.ceu.mte.ConverterMTE;
+import tictim.ceu.mte.Converter;
 import tictim.ceu.util.WrappedElectricItem;
 
 import javax.annotation.Nullable;
@@ -21,13 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConverterEnergyStorage extends MTETrait{
-	protected final ConverterMTE converter;
+	protected final Converter converter;
 
 	private long internalStored;
 
-	public ConverterEnergyStorage(ConverterMTE converter){
-		super(converter);
-		this.converter = converter;
+	public <MTE extends MetaTileEntity & Converter> ConverterEnergyStorage(MTE mte){
+		super(mte);
+		this.converter = mte;
 	}
 
 	@Override public String getName(){
@@ -41,7 +41,7 @@ public class ConverterEnergyStorage extends MTETrait{
 	}
 
 	@Override public void update(){
-		if(!converter.getWorld().isRemote&&!converter.isDisabled()){
+		if(!metaTileEntity.getWorld().isRemote&&!converter.isDisabled()){
 			BatteryFilter extract = converter.getModes().getOnlyDischargeFilter();
 			if(extract!=BatteryFilter.NONE){
 				// Draw the energy out from items and store them in internal buffer
@@ -61,14 +61,14 @@ public class ConverterEnergyStorage extends MTETrait{
 	}
 
 	public long internalCapacity(){
-		return GTValues.V[converter.getTier()]*32;
+		return converter.voltage()*32;
 	}
 
 	public long stored(BatteryFilter filter){
 		if(filter==BatteryFilter.NONE) return internalStored;
 
 		long total = internalStored;
-		IItemHandlerModifiable inventory = converter.getImportItems();
+		IItemHandlerModifiable inventory = metaTileEntity.getImportItems();
 		for(int i = 0; i<inventory.getSlots(); i++){
 			IElectricItem item = getBatteryContainer(inventory.getStackInSlot(i), filter);
 			if(item!=null){
@@ -83,7 +83,7 @@ public class ConverterEnergyStorage extends MTETrait{
 		if(filter==BatteryFilter.NONE) return internalCapacity();
 
 		long total = internalCapacity();
-		IItemHandlerModifiable inventory = converter.getImportItems();
+		IItemHandlerModifiable inventory = metaTileEntity.getImportItems();
 		for(int i = 0; i<inventory.getSlots(); i++){
 			IElectricItem item = getBatteryContainer(inventory.getStackInSlot(i), filter);
 			if(item!=null){
@@ -115,7 +115,7 @@ public class ConverterEnergyStorage extends MTETrait{
 		if(!ignoreLimit) amount = Math.min(amount, converter.energyIOLimit());
 
 		long total = 0;
-		IItemHandlerModifiable inventory = converter.getImportItems();
+		IItemHandlerModifiable inventory = metaTileEntity.getImportItems();
 		for(int i = 0; i<inventory.getSlots(); i++){
 			IElectricItem item = getBatteryContainer(inventory.getStackInSlot(i), filter);
 			if(item!=null){
@@ -166,7 +166,7 @@ public class ConverterEnergyStorage extends MTETrait{
 
 	private long insertToBatteriesFirstSlotFirst(long amount, boolean ignoreLimit, BatteryFilter filter, boolean simulate){
 		long total = 0;
-		IItemHandlerModifiable inventory = converter.getImportItems();
+		IItemHandlerModifiable inventory = metaTileEntity.getImportItems();
 		for(int i = 0; i<inventory.getSlots(); i++){
 			IElectricItem item = getBatteryContainer(inventory.getStackInSlot(i), filter);
 			if(item!=null){
@@ -180,7 +180,7 @@ public class ConverterEnergyStorage extends MTETrait{
 	private long distributeToBatteries(long amount, boolean ignoreLimit, BatteryFilter filter){
 		List<BatteryEnergyDistribution> batteries = null;
 
-		IItemHandlerModifiable inventory = converter.getImportItems();
+		IItemHandlerModifiable inventory = metaTileEntity.getImportItems();
 		for(int i = 0; i<inventory.getSlots(); i++){
 			IElectricItem item = getBatteryContainer(inventory.getStackInSlot(i), filter);
 			if(item!=null){
@@ -237,7 +237,7 @@ public class ConverterEnergyStorage extends MTETrait{
 		List<IElectricItem> batteries = null;
 		long total = 0;
 
-		IItemHandlerModifiable inventory = converter.getImportItems();
+		IItemHandlerModifiable inventory = metaTileEntity.getImportItems();
 		for(int i = 0; i<inventory.getSlots(); i++){
 			IElectricItem item = getBatteryContainer(inventory.getStackInSlot(i), filter);
 			if(item!=null&&charge(item, amount, ignoreLimit, true)>0){

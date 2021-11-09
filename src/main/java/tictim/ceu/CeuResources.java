@@ -3,7 +3,6 @@ package tictim.ceu;
 import gregtech.api.gui.resources.TextureArea;
 import gregtech.api.render.SimpleOverlayRenderer;
 import net.minecraft.util.ResourceLocation;
-import tictim.ceu.CeuMod;
 
 public final class CeuResources{
 	private CeuResources(){}

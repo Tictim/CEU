@@ -1,25 +1,23 @@
 package tictim.ceu.config;
 
-import gregtech.api.GTValues;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import tictim.ceu.util.Ratio;
 
-public final class CeuSetting{
+public final class ConverterSetting{
 	private static Ratio getDefaultConversionRate(boolean reversed){
 		return reversed ? Ratio.FOUR_TO_ONE.reverse() : Ratio.FOUR_TO_ONE;
 	}
 
-	private final int tier;
-	private final String category;
+	private final String tier;
 
 	public final Ratio conversionRatio;
 	public final boolean disable;
 
-	public CeuSetting(Configuration cfg, String name, int tier, boolean defaultRatioReversed){
+	public ConverterSetting(Configuration cfg, String converterName, String tier, boolean defaultRatioReversed){
 		this.tier = tier;
-		this.category = "general."+name+"."+GTValues.VN[tier];
+		String category = "general."+converterName+"."+tier;
 
 		Ratio defaultConversionRate = getDefaultConversionRate(defaultRatioReversed);
 		Property config = cfg.get(
@@ -38,11 +36,10 @@ public final class CeuSetting{
 		this.disable = cfg.get(category, "disable", false, "").getBoolean();
 	}
 
-	public CeuSetting(NBTTagCompound nbt, String name, int tier){
+	public ConverterSetting(NBTTagCompound nbt, String tier){
 		this.tier = tier;
-		this.category = "general."+name+"."+GTValues.VN[tier];
 
-		NBTTagCompound subnbt = nbt.getCompoundTag(GTValues.VN[tier]);
+		NBTTagCompound subnbt = nbt.getCompoundTag(tier);
 
 		this.conversionRatio = Ratio.deserialize(subnbt);
 		this.disable = subnbt.getBoolean("disable");
@@ -52,6 +49,6 @@ public final class CeuSetting{
 		NBTTagCompound subnbt = new NBTTagCompound();
 		subnbt.setBoolean("disable", disable);
 		conversionRatio.serialize(subnbt);
-		nbt.setTag(GTValues.VN[tier], subnbt);
+		nbt.setTag(tier, subnbt);
 	}
 }

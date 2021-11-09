@@ -3,10 +3,14 @@ package tictim.ceu;
 import gregtech.api.GTValues;
 import gregtech.api.GregTechAPI;
 import gregtech.api.items.OreDictNames;
+import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.recipes.ModHandler;
+import gregtech.api.unification.material.Materials;
+import gregtech.api.unification.stack.UnificationEntry;
 import net.minecraft.util.ResourceLocation;
-import tictim.ceu.mte.CefMTE;
-import tictim.ceu.mte.CeuMTE;
+import net.minecraftforge.fml.common.Loader;
+import tictim.ceu.config.CeuConfig;
+import tictim.ceu.mte.Converter;
 import tictim.ceu.mte.ConverterMTE;
 import tictim.ceu.mte.InfiniteFeEmitterMTE;
 import tictim.ceu.mte.InfiniteFeReceiverMTE;
@@ -15,7 +19,6 @@ import tictim.ceu.mte.InfiniteGteuReceiverMTE;
 import tictim.ceu.util.CeuCraftingHelper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public final class CeuContents{
@@ -25,8 +28,8 @@ public final class CeuContents{
 		return new ResourceLocation(CeuMod.MODID, s);
 	}
 
-	public static final List<CeuMTE> CEU;
-	public static final List<CefMTE> CEF;
+	public static final List<MetaTileEntity> CEU;
+	public static final List<MetaTileEntity> CEF;
 
 	public static final InfiniteFeEmitterMTE INFINITE_FE_EMITTER = new InfiniteFeEmitterMTE(n("fe_emitter"));
 	public static final InfiniteFeReceiverMTE INFINITE_FE_RECEIVER = new InfiniteFeReceiverMTE(n("fe_receiver"));
@@ -34,24 +37,30 @@ public final class CeuContents{
 	public static final InfiniteGteuReceiverMTE INFINITE_GTEU_RECEIVER = new InfiniteGteuReceiverMTE(n("gteu_receiver"));
 
 	static{
-		List<CeuMTE> ceus = new ArrayList<>();
-		for(int tier = 0; tier<GTValues.V.length; tier++)
-			for(int slots = 1; slots<=4; slots++)
-				ceus.add(new CeuMTE(n("ceu."+GTValues.VN[tier]+"."+slots*slots), tier, slots));
-		CEU = Collections.unmodifiableList(ceus);
+		if(isGregicalityCompatActive()){
+			CEU = CeuGregicalityCompat.converter(true);
+			CEF = CeuGregicalityCompat.converter(false);
+		}else{
+			CEU = converter(true);
+			CEF = converter(false);
+		}
+	}
 
-		List<CefMTE> cefs = new ArrayList<>();
-		for(int tier = 0; tier<GTValues.V.length; tier++)
+	public static List<MetaTileEntity> converter(boolean convertsToFe){
+		List<MetaTileEntity> converters = new ArrayList<>();
+		for(int tier = GTValues.ULV; tier<=GTValues.MAX; tier++)
 			for(int slots = 1; slots<=4; slots++)
-				cefs.add(new CefMTE(n("cef."+GTValues.VN[tier]+"."+slots*slots), tier, slots));
-		CEF = Collections.unmodifiableList(cefs);
+				converters.add(new ConverterMTE(new ResourceLocation(CeuMod.MODID, (convertsToFe ? "ceu." : "cef.")+GTValues.VN[tier]+"."+slots*slots),
+						tier,
+						slots,
+						convertsToFe));
+		return converters;
 	}
 
 	public static void register(){
-		int id = 10650;
 		for(int i = 0; i<CEU.size(); i++){
-			GregTechAPI.registerMetaTileEntity(id++, CEU.get(i));
-			GregTechAPI.registerMetaTileEntity(id++, CEF.get(i));
+			GregTechAPI.registerMetaTileEntity(10650+i*2, CEU.get(i));
+			GregTechAPI.registerMetaTileEntity(10650+i*2+1, CEF.get(i));
 		}
 
 		GregTechAPI.registerMetaTileEntity(10649, INFINITE_FE_EMITTER);
@@ -60,36 +69,29 @@ public final class CeuContents{
 		GregTechAPI.registerMetaTileEntity(10646, INFINITE_GTEU_RECEIVER);
 	}
 
+	public static boolean isGregicalityCompatActive(){
+		return Loader.isModLoaded("gtadditions")&&!CeuConfig.config().disableGregicalityCompat();
+	}
+
 	public static void addRecipes(){
-		CeuCraftingHelper helper = new CeuCraftingHelper();
-		for(ConverterMTE mte : CEU) addCeuRecipe(mte, helper);
-		for(ConverterMTE mte : CEF) addCefRecipe(mte, helper);
+		CeuCraftingHelper helper = isGregicalityCompatActive() ? CeuGregicalityCompat.getCraftingHelper() : new CeuCraftingHelper();
+		for(MetaTileEntity mte : CEU) addConverterRecipe(mte, helper);
+		for(MetaTileEntity mte : CEF) addConverterRecipe(mte, helper);
 	}
 
-	private static void addCeuRecipe(ConverterMTE mte, CeuCraftingHelper h){
-		int tier = mte.getTier();
-		int slots = mte.getSlots();
-		ModHandler.addShapedRecipe(mte.metaTileEntityId.toString(), mte.getStackForm(), "WTW",
+	private static void addConverterRecipe(MetaTileEntity mte, CeuCraftingHelper h){
+		if(!(mte instanceof Converter)) throw new IllegalArgumentException("Expected converter");
+		Converter converter = (Converter)mte;
+		int tier = converter.getTier();
+		int slots = converter.getSlots();
+		ModHandler.addShapedRecipe(mte.metaTileEntityId.toString(), mte.getStackForm(), converter.convertsToFE() ? "WTW" : "WSW",
 				"RMR",
-				"WSW",
+				converter.convertsToFE() ? "WSW" : "WTW",
 
 				'M', h.hull(tier),
-				'W', h.cable(tier, slots),
+				'W', new UnificationEntry(h.cablePrefix(slots), h.cableMaterialByTier(tier)),
 				'T', OreDictNames.chestWood,
-				'R', h.redCable(slots),
-				'S', h.circuit(tier));
-	}
-	private static void addCefRecipe(ConverterMTE mte, CeuCraftingHelper h){
-		int tier = mte.getTier();
-		int slots = mte.getSlots();
-		ModHandler.addShapedRecipe(mte.metaTileEntityId.toString(), mte.getStackForm(), "WSW",
-				"RMR",
-				"WTW",
-
-				'M', h.hull(tier),
-				'W', h.cable(tier, slots),
-				'T', OreDictNames.chestWood,
-				'R', h.redCable(slots),
+				'R', new UnificationEntry(h.cablePrefix(slots), Materials.RedAlloy),
 				'S', h.circuit(tier));
 	}
 }

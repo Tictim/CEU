@@ -9,17 +9,17 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class ConfigSyncMsg implements IMessage{
 	private CeuConfig cfg;
-	
+
 	@Override public void fromBytes(ByteBuf buf){
 		cfg = new CeuConfig(ByteBufUtils.readTag(buf));
 	}
-	
+
 	@Override public void toBytes(ByteBuf buf){
 		NBTTagCompound nbt = new NBTTagCompound();
 		CeuConfig.localConfig().serialize(nbt);
 		ByteBufUtils.writeTag(buf, nbt);
 	}
-	
+
 	public enum Handler implements IMessageHandler<ConfigSyncMsg, IMessage>{
 		INSTANCE;
 

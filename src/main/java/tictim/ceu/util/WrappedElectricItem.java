@@ -3,15 +3,15 @@ package tictim.ceu.util;
 import gregtech.api.capability.IElectricItem;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.energy.IEnergyStorage;
-import tictim.ceu.mte.ConverterMTE;
+import tictim.ceu.mte.Converter;
 
 import java.util.function.BiConsumer;
 
 public class WrappedElectricItem implements IElectricItem{
-	private final ConverterMTE converter;
+	private final Converter converter;
 	private final IEnergyStorage storage;
 
-	public WrappedElectricItem(ConverterMTE converter, IEnergyStorage storage){
+	public WrappedElectricItem(Converter converter, IEnergyStorage storage){
 		this.converter = converter;
 		this.storage = storage;
 	}

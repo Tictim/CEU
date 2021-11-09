@@ -3,11 +3,11 @@ package tictim.ceu.mte;
 import codechicken.lib.render.CCRenderState;
 import codechicken.lib.render.pipeline.IVertexOperation;
 import codechicken.lib.vec.Matrix4;
-import gregtech.api.GTValues;
+import gregicadditions.GAValues;
+import gregicadditions.machines.overrides.GATieredMetaTileEntity;
 import gregtech.api.gui.ModularUI;
 import gregtech.api.metatileentity.MTETrait;
 import gregtech.api.metatileentity.MetaTileEntityHolder;
-import gregtech.api.metatileentity.TieredMetaTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,14 +29,14 @@ import tictim.ceu.util.ConverterSharedCode;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ConverterMTE extends TieredMetaTileEntity implements Converter{
+public class GAConverterMTE extends GATieredMetaTileEntity implements Converter{
 	private final int slots;
 	private final boolean convertsToFe;
 	private final ConverterEnergyStorage energyStorage;
 
 	private final CeuModes modes = new CeuModes();
 
-	public ConverterMTE(ResourceLocation id, int tier, int slots, boolean convertsToFe){
+	public GAConverterMTE(ResourceLocation id, int tier, int slots, boolean convertsToFe){
 		super(id, tier);
 		this.slots = slots;
 		this.convertsToFe = convertsToFe;
@@ -58,13 +58,13 @@ public class ConverterMTE extends TieredMetaTileEntity implements Converter{
 		return slots;
 	}
 	@Override public final long voltage(){
-		return GTValues.V[getTier()];
+		return GAValues.V[getTier()];
 	}
 
 	@Override public boolean convertsToFE(){
 		return convertsToFe;
 	}
-	public CeuModes getModes(){
+	@Override public CeuModes getModes(){
 		return modes;
 	}
 
@@ -76,8 +76,8 @@ public class ConverterMTE extends TieredMetaTileEntity implements Converter{
 		super.initializeInventory();
 		this.itemInventory = importItems;
 	}
-	@Override public ConverterMTE createMetaTileEntity(MetaTileEntityHolder metaTileEntityHolder){
-		return new ConverterMTE(metaTileEntityId, getTier(), slots, convertsToFe);
+	@Override public GAConverterMTE createMetaTileEntity(MetaTileEntityHolder metaTileEntityHolder){
+		return new GAConverterMTE(metaTileEntityId, getTier(), slots, convertsToFe);
 	}
 	@Override protected void reinitializeEnergyContainer(){}
 	@Override public int getActualComparatorValue(){
@@ -85,7 +85,7 @@ public class ConverterMTE extends TieredMetaTileEntity implements Converter{
 	}
 
 	@Override public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, boolean advanced){
-		ConverterSharedCode.Client.addInformation(tooltip, this, GTValues.VN[getTier()], energyStorage.internalCapacity());
+		ConverterSharedCode.Client.addInformation(tooltip, this, GAValues.VN[getTier()], energyStorage.internalCapacity());
 	}
 
 	@Override public boolean isValidFrontFacing(EnumFacing facing){

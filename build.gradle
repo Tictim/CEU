@@ -61,8 +61,9 @@ repositories {
 }
 
 dependencies {
-    deobfCompile "gregtechce:gregtech:1.12.2:1.14.0.689"
+    deobfCompile "gregtechce:gregtech:1.12.2:1.17.1.770"
     deobfCompile "codechicken-lib-1-8:CodeChickenLib-1.12.2:3.2.3.358:universal"
+    deobfCompile "gregicality:Gregicality:1.12.2:0.23.1"
 
     // compile against the JEI API but do not include it at runtime
     compileOnly "mezz.jei:jei_1.12.2:4.15.0.268:api"
