@@ -4,6 +4,7 @@ import gregicadditions.GAValues;
 import gregtech.api.metatileentity.MetaTileEntity;
 import net.minecraft.util.ResourceLocation;
 import tictim.ceu.mte.GAConverterMTE;
+import tictim.ceu.mte.GAInfiniteGteuEmitterMTE;
 import tictim.ceu.util.CeuCraftingHelper;
 import tictim.ceu.util.CeuGregicalityCompatCraftingHelper;
 
@@ -34,5 +35,8 @@ public final class CeuGregicalityCompat{
 
 	public static CeuCraftingHelper getCraftingHelper(){
 		return new CeuGregicalityCompatCraftingHelper();
+	}
+	public static GAInfiniteGteuEmitterMTE infiniteGteuEmitter(ResourceLocation id){
+		return new GAInfiniteGteuEmitterMTE(id);
 	}
 }

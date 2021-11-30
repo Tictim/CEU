@@ -1,6 +1,5 @@
 package tictim.ceu.gui;
 
-import gregtech.api.GTValues;
 import gregtech.api.gui.IUIHolder;
 import gregtech.api.gui.ModularUI;
 import gregtech.api.gui.Widget;
@@ -26,13 +25,6 @@ public class InfiniteEnergyUIData{
 	private static final String[] INFINITE_OFF_ON = {"info.infinite_energy.finite", "info.infinite_energy.infinite"};
 	private static final Pattern NUMBER_PATTERN = Pattern.compile("[0-9]*");
 	private static final Predicate<String> NUMBER_PATTERN_VALIDATOR = s -> NUMBER_PATTERN.matcher(s).matches();
-	private static final String[] TRANSLATABLE_VOLTAGE_NAMES;
-
-	static{
-		TRANSLATABLE_VOLTAGE_NAMES = new String[GTValues.V.length];
-		for(int i = 0; i<GTValues.V.length; i++)
-			TRANSLATABLE_VOLTAGE_NAMES[i] = "info.infinite_energy."+GTValues.VN[i].toLowerCase();
-	}
 
 	private boolean isDirty;
 
@@ -125,7 +117,7 @@ public class InfiniteEnergyUIData{
 			return this;
 		}
 
-		public InfiniteEnergyGuiBuilder buttonTier(IntConsumer applyTierChange){
+		public InfiniteEnergyGuiBuilder buttonTier(IntConsumer applyTierChange, String[] voltageNames){
 			this.applyTierChange = applyTierChange;
 			if(!widgets.isEmpty()) y += 4;
 			widgets.add(new CycleButtonWidget(
@@ -133,7 +125,7 @@ public class InfiniteEnergyUIData{
 					y,
 					200,
 					20,
-					TRANSLATABLE_VOLTAGE_NAMES,
+					voltageNames,
 					InfiniteEnergyUIData.this::getTier,
 					InfiniteEnergyUIData.this::setTier
 			));

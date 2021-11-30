@@ -4,7 +4,7 @@ import gregicadditions.GAValues;
 import gregtech.api.GTValues;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.Loader;
+import tictim.ceu.CeuContents;
 
 public final class TierCategory{
 	private final ConverterSetting[] settings;
@@ -35,12 +35,9 @@ public final class TierCategory{
 	}
 
 	private static String[] getTierNames(){
-		if(Loader.isModLoaded("gtadditions")){
-			try{
-				return GregicalityCompat.getTierNames();
-			}catch(Exception ignored){} // I don't fucking know???
-		}
-		return GTValues.VN;
+		return CeuContents.isGregicalityPresent() ?
+				GregicalityCompat.getTierNames() :
+				GTValues.VN;
 	}
 
 	private static final class GregicalityCompat{

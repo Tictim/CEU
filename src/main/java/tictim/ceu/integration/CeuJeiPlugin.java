@@ -14,8 +14,8 @@ public class CeuJeiPlugin implements IModPlugin{
 	public void register(IModRegistry registry){
 		IIngredientBlacklist blacklist = registry.getJeiHelpers().getIngredientBlacklist();
 
-		for(MetaTileEntity mte : CeuContents.CEU) disableItem(blacklist, mte);
-		for(MetaTileEntity mte : CeuContents.CEF) disableItem(blacklist, mte);
+		for(MetaTileEntity mte : CeuContents.getCeu()) disableItem(blacklist, mte);
+		for(MetaTileEntity mte : CeuContents.getCef()) disableItem(blacklist, mte);
 	}
 
 	private void disableItem(IIngredientBlacklist blacklist, MetaTileEntity mte){

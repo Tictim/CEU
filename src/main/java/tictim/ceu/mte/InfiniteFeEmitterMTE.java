@@ -97,7 +97,7 @@ public class InfiniteFeEmitterMTE extends InfiniteEnergyMTE{
 		}
 
 		@Override public int getEnergyStored(){
-			return isInfinite()||energy.compareTo(tictim.ceu.mte.InfiniteEnergyMTE.MAX_INT)>=0 ? Integer.MAX_VALUE : energy.intValueExact();
+			return isInfinite()||energy.compareTo(MAX_INT)>=0 ? Integer.MAX_VALUE : energy.intValueExact();
 		}
 		@Override public int getMaxEnergyStored(){ //whatever
 			return getEnergyStored();

@@ -1,6 +1,6 @@
 package tictim.ceu.mte;
 
-import gregtech.api.GTValues;
+import gregicadditions.GAValues;
 import gregtech.api.capability.GregtechCapabilities;
 import gregtech.api.capability.IEnergyContainer;
 import gregtech.api.gui.ModularUI;
@@ -20,18 +20,18 @@ import tictim.ceu.gui.InfiniteEnergyUIData;
 import javax.annotation.Nullable;
 import java.math.BigInteger;
 
-public class InfiniteGteuEmitterMTE extends InfiniteEnergyMTE{
+public class GAInfiniteGteuEmitterMTE extends InfiniteEnergyMTE{
 	private static final String[] TRANSLATABLE_VOLTAGE_NAMES;
 
 	static{
-		TRANSLATABLE_VOLTAGE_NAMES = new String[GTValues.V.length];
-		for(int i = 0; i<GTValues.V.length; i++)
-			TRANSLATABLE_VOLTAGE_NAMES[i] = "info.infinite_energy."+GTValues.VN[i].toLowerCase();
+		TRANSLATABLE_VOLTAGE_NAMES = new String[GAValues.V.length];
+		for(int i = 0; i<GAValues.V.length; i++)
+			TRANSLATABLE_VOLTAGE_NAMES[i] = "info.infinite_energy."+GAValues.VN[i].toLowerCase();
 	}
 
 	private final Trait trait = new Trait();
 
-	public InfiniteGteuEmitterMTE(ResourceLocation metaTileEntityId){
+	public GAInfiniteGteuEmitterMTE(ResourceLocation metaTileEntityId){
 		super(metaTileEntityId);
 	}
 
@@ -44,7 +44,7 @@ public class InfiniteGteuEmitterMTE extends InfiniteEnergyMTE{
 			IEnergyContainer s = te.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, facing.getOpposite());
 			if(s==null||!s.inputsEnergy(facing.getOpposite())) continue;
 
-			long stored = trait.getEnergyStored(), voltage = Math.min(GTValues.V[trait.tier], s.getInputVoltage());
+			long stored = trait.getEnergyStored(), voltage = Math.min(GAValues.V[trait.tier], s.getInputVoltage());
 			if(stored/voltage>0){
 				long accepted = s.acceptEnergyFromNetwork(facing.getOpposite(), voltage, Math.min(s.getInputAmperage(), stored/voltage))*voltage;
 				if(accepted>0){
@@ -62,7 +62,7 @@ public class InfiniteGteuEmitterMTE extends InfiniteEnergyMTE{
 		return CeuResources.GTEU_EMITTER_FACE;
 	}
 	@Override public MetaTileEntity createMetaTileEntity(MetaTileEntityHolder metaTileEntityHolder){
-		return new InfiniteGteuEmitterMTE(this.metaTileEntityId);
+		return new GAInfiniteGteuEmitterMTE(this.metaTileEntityId);
 	}
 	@Override protected ModularUI createUI(EntityPlayer entityPlayer){
 		InfiniteEnergyUIData d = new InfiniteEnergyUIData();
@@ -78,11 +78,11 @@ public class InfiniteGteuEmitterMTE extends InfiniteEnergyMTE{
 	}
 
 	private final class Trait extends MTETrait implements IEnergyContainer{
-		private int tier = GTValues.MAX;
+		private int tier = GAValues.MAX;
 		private boolean infinite;
 
 		public Trait(){
-			super(InfiniteGteuEmitterMTE.this);
+			super(GAInfiniteGteuEmitterMTE.this);
 		}
 
 		public int getTier(){
@@ -103,7 +103,7 @@ public class InfiniteGteuEmitterMTE extends InfiniteEnergyMTE{
 			return "Trait";
 		}
 		@Override public int getNetworkID(){
-			return TraitNetworkIds.TRAIT_ID_ENERGY_CONTAINER;
+			return MTETrait.TraitNetworkIds.TRAIT_ID_ENERGY_CONTAINER;
 		}
 
 		@Override public long acceptEnergyFromNetwork(EnumFacing side, long voltage, long amperage){

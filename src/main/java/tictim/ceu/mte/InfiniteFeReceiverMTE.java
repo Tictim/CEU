@@ -63,7 +63,7 @@ public class InfiniteFeReceiverMTE extends InfiniteEnergyMTE{
 			return 0;
 		}
 		@Override public int getEnergyStored(){
-			return energy.compareTo(tictim.ceu.mte.InfiniteEnergyMTE.MAX_INT)>=0 ? Integer.MAX_VALUE : energy.intValueExact();
+			return energy.compareTo(MAX_INT)>=0 ? Integer.MAX_VALUE : energy.intValueExact();
 		}
 		@Override public int getMaxEnergyStored(){ //whatever
 			return getEnergyStored();

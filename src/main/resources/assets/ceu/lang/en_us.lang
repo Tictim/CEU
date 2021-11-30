@@ -190,6 +190,13 @@ info.infinite_energy.luv=Voltage: LUV
 info.infinite_energy.zpm=Voltage: ZPM
 info.infinite_energy.uv=Voltage: UV
 info.infinite_energy.max=Voltage: MAX
+
+info.infinite_energy.uhv=Voltage: UHV
+info.infinite_energy.uev=Voltage: UEV
+info.infinite_energy.uiv=Voltage: UIV
+info.infinite_energy.umv=Voltage: UMV
+info.infinite_energy.uxv=Voltage: UXV
+
 info.infinite_energy.accept=Accept
 info.infinite_energy.decline=Decline
 info.button.accept=Press §lENTER§r to accept changes

@@ -1,5 +1,6 @@
 package tictim.ceu;
 
+import gregicadditions.GAValues;
 import gregtech.api.GTValues;
 import gregtech.api.GregTechAPI;
 import gregtech.api.items.OreDictNames;
@@ -12,12 +13,14 @@ import net.minecraftforge.fml.common.Loader;
 import tictim.ceu.config.CeuConfig;
 import tictim.ceu.mte.Converter;
 import tictim.ceu.mte.ConverterMTE;
+import tictim.ceu.mte.InfiniteEnergyMTE;
 import tictim.ceu.mte.InfiniteFeEmitterMTE;
 import tictim.ceu.mte.InfiniteFeReceiverMTE;
 import tictim.ceu.mte.InfiniteGteuEmitterMTE;
 import tictim.ceu.mte.InfiniteGteuReceiverMTE;
 import tictim.ceu.util.CeuCraftingHelper;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,22 +31,14 @@ public final class CeuContents{
 		return new ResourceLocation(CeuMod.MODID, s);
 	}
 
-	public static final List<MetaTileEntity> CEU;
-	public static final List<MetaTileEntity> CEF;
+	private static List<MetaTileEntity> ceu;
+	private static List<MetaTileEntity> cef;
 
-	public static final InfiniteFeEmitterMTE INFINITE_FE_EMITTER = new InfiniteFeEmitterMTE(n("fe_emitter"));
-	public static final InfiniteFeReceiverMTE INFINITE_FE_RECEIVER = new InfiniteFeReceiverMTE(n("fe_receiver"));
-	public static final InfiniteGteuEmitterMTE INFINITE_GTEU_EMITTER = new InfiniteGteuEmitterMTE(n("gteu_emitter"));
-	public static final InfiniteGteuReceiverMTE INFINITE_GTEU_RECEIVER = new InfiniteGteuReceiverMTE(n("gteu_receiver"));
-
-	static{
-		if(isGregicalityCompatActive()){
-			CEU = CeuGregicalityCompat.converter(true);
-			CEF = CeuGregicalityCompat.converter(false);
-		}else{
-			CEU = converter(true);
-			CEF = converter(false);
-		}
+	public static List<MetaTileEntity> getCeu(){
+		return ceu;
+	}
+	public static List<MetaTileEntity> getCef(){
+		return cef;
 	}
 
 	public static List<MetaTileEntity> converter(boolean convertsToFe){
@@ -57,26 +52,65 @@ public final class CeuContents{
 		return converters;
 	}
 
-	public static void register(){
-		for(int i = 0; i<CEU.size(); i++){
-			GregTechAPI.registerMetaTileEntity(10650+i*2, CEU.get(i));
-			GregTechAPI.registerMetaTileEntity(10650+i*2+1, CEF.get(i));
+	static void register(){
+		if(ceu!=null) throw new IllegalStateException("Registered twice");
+
+		InfiniteEnergyMTE infiniteGteuEmitter;
+		if(isGregicalityCompatActive()){
+			ceu = CeuGregicalityCompat.converter(true);
+			cef = CeuGregicalityCompat.converter(false);
+			infiniteGteuEmitter = CeuGregicalityCompat.infiniteGteuEmitter(n("gteu_emitter"));
+		}else{
+			ceu = converter(true);
+			cef = converter(false);
+			infiniteGteuEmitter = new InfiniteGteuEmitterMTE(n("gteu_emitter"));
 		}
 
-		GregTechAPI.registerMetaTileEntity(10649, INFINITE_FE_EMITTER);
-		GregTechAPI.registerMetaTileEntity(10648, INFINITE_FE_RECEIVER);
-		GregTechAPI.registerMetaTileEntity(10647, INFINITE_GTEU_EMITTER);
-		GregTechAPI.registerMetaTileEntity(10646, INFINITE_GTEU_RECEIVER);
+		for(int i = 0; i<ceu.size(); i++){
+			GregTechAPI.registerMetaTileEntity(10650+i*2, ceu.get(i));
+			GregTechAPI.registerMetaTileEntity(10650+i*2+1, cef.get(i));
+		}
+
+		GregTechAPI.registerMetaTileEntity(10649, new InfiniteFeEmitterMTE(n("fe_emitter")));
+		GregTechAPI.registerMetaTileEntity(10648, new InfiniteFeReceiverMTE(n("fe_receiver")));
+		GregTechAPI.registerMetaTileEntity(10647, infiniteGteuEmitter);
+		GregTechAPI.registerMetaTileEntity(10646, new InfiniteGteuReceiverMTE(n("gteu_receiver")));
+	}
+
+	@Nullable private static volatile Boolean gregicalityPresent;
+
+	/**
+	 * FUCK
+	 */
+	public static boolean isGregicalityPresent(){
+		if(gregicalityPresent==null){
+			synchronized(CeuContents.class){
+				if(gregicalityPresent==null){
+					if(Loader.isModLoaded("gtadditions")){
+						try{
+							new Object(){{
+								//noinspection ResultOfMethodCallIgnored
+								GAValues.class.toString();
+							}};
+							gregicalityPresent = true;
+						}catch(NoClassDefFoundError ex){
+							gregicalityPresent = false;
+						}
+					}else gregicalityPresent = false;
+				}
+			}
+		}
+		return gregicalityPresent;
 	}
 
 	public static boolean isGregicalityCompatActive(){
-		return Loader.isModLoaded("gtadditions")&&!CeuConfig.config().disableGregicalityCompat();
+		return isGregicalityPresent()&&!CeuConfig.config().disableGregicalityCompat();
 	}
 
 	public static void addRecipes(){
 		CeuCraftingHelper helper = isGregicalityCompatActive() ? CeuGregicalityCompat.getCraftingHelper() : new CeuCraftingHelper();
-		for(MetaTileEntity mte : CEU) addConverterRecipe(mte, helper);
-		for(MetaTileEntity mte : CEF) addConverterRecipe(mte, helper);
+		for(MetaTileEntity mte : ceu) addConverterRecipe(mte, helper);
+		for(MetaTileEntity mte : cef) addConverterRecipe(mte, helper);
 	}
 
 	private static void addConverterRecipe(MetaTileEntity mte, CeuCraftingHelper h){

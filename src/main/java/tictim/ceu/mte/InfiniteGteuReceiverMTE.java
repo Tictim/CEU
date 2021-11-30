@@ -71,10 +71,10 @@ public class InfiniteGteuReceiverMTE extends InfiniteEnergyMTE{
 			return GTValues.V[GTValues.MAX];
 		}
 		@Override public long getEnergyStored(){
-			return energy.compareTo(tictim.ceu.mte.InfiniteEnergyMTE.MAX_LONG)>=0 ? Long.MAX_VALUE : energy.longValueExact();
+			return energy.compareTo(MAX_LONG)>=0 ? Long.MAX_VALUE : energy.longValueExact();
 		}
 		@Override public long getEnergyCapacity(){
-			return energy.compareTo(tictim.ceu.mte.InfiniteEnergyMTE.MAX_LONG)>=0 ? Long.MAX_VALUE : energy.longValueExact();
+			return energy.compareTo(MAX_LONG)>=0 ? Long.MAX_VALUE : energy.longValueExact();
 		}
 
 		@Nullable
